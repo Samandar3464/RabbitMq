@@ -1,12 +1,12 @@
-package uz.xb.robbitmq.controller;
+package uz.xb.rabbitmq.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import uz.xb.robbitmq.entity.first.Info;
-import uz.xb.robbitmq.entity.second.ABS;
-import uz.xb.robbitmq.service.UserService;
+import uz.xb.rabbitmq.entity.first.Info;
+import uz.xb.rabbitmq.entity.second.ABS;
+import uz.xb.rabbitmq.service.UserService;
 
 
 import java.util.List;

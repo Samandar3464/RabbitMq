@@ -1,4 +1,4 @@
-package uz.xb.robbitmq.config;
+package uz.xb.rabbitmq.config;
 
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,8 +24,8 @@ import java.util.HashMap;
         entityManagerFactoryRef = "entityManagerFactorySecond",
         transactionManagerRef = "transactionManagerSecond",
         basePackages = {
-//                "uz.xb.robbitmq.entity.second",
-                "uz.xb.robbitmq.repository.second"
+//                "uz.xb.rabbitmq.entity.second",
+                "uz.xb.rabbitmq.repository.second"
         }
 )
 public class SecondDatabaseConfig {
@@ -59,7 +59,7 @@ public class SecondDatabaseConfig {
 //
 //        return builder
 //                .dataSource(dataSource)
-//                .packages("uz.xb.robbitmq.entity.second")
+//                .packages("uz.xb.rabbitmq.entity.second")
 //                .persistenceUnit("second")
 //                .properties(properties)
 //                .build();
@@ -77,7 +77,7 @@ public class SecondDatabaseConfig {
         properties.put("hibernate.hbm2ddl.auto", "update");
         properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         bean.setJpaPropertyMap(properties);
-        bean.setPackagesToScan("uz.xb.robbitmq.entity.second");
+        bean.setPackagesToScan("uz.xb.rabbitmq.entity.second");
         return bean;
     }
 

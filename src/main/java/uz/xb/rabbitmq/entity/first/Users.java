@@ -1,4 +1,4 @@
-package uz.xb.robbitmq.entity.first;
+package uz.xb.rabbitmq.entity.first;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

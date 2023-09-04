@@ -1,4 +1,4 @@
-package uz.xb.robbitmq.entity.first;
+package uz.xb.rabbitmq.entity.second;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,16 +8,17 @@ import lombok.Setter;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "abs")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Car {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String carName;
+public class ABS {
 
-    @OneToOne
-    private Users userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private Integer userId;
+    private String name;
+    private String carName;
 }

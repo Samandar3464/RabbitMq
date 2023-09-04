@@ -1,14 +1,14 @@
-package uz.xb.robbitmq.service;
+package uz.xb.rabbitmq.service;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import uz.xb.robbitmq.entity.first.Info;
-import uz.xb.robbitmq.entity.second.ABS;
-import uz.xb.robbitmq.repository.first.InfoRepository;
-import uz.xb.robbitmq.repository.second.ABSRepository;
+import uz.xb.rabbitmq.entity.first.Info;
+import uz.xb.rabbitmq.entity.second.ABS;
+import uz.xb.rabbitmq.repository.first.InfoRepository;
+import uz.xb.rabbitmq.repository.second.ABSRepository;
 
 
 import java.util.ArrayList;
