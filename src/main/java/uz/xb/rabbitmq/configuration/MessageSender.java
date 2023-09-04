@@ -19,7 +19,7 @@ public class MessageSender {
         return new Queue("register", false);
     }
 
-    public void sendMessage(String message) {
+    public void sendMessage(Object message) {
         rabbitTemplate.convertAndSend("register", message);
     }
 }

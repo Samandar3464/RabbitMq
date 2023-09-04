@@ -1,5 +1,6 @@
 package uz.xb.rabbitmq.entity.first;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonSerialize
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

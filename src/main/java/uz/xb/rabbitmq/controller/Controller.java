@@ -2,6 +2,7 @@ package uz.xb.rabbitmq.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.xb.rabbitmq.configuration.MessageSender;
 import uz.xb.rabbitmq.entity.first.Info;
@@ -32,17 +33,9 @@ public class Controller {
         return userService.fromStoP();
     }
 
-//    @PostMapping("/register")
-//     public ResponseEntity<?> register(@RequestBody UserRegisterDto dto){
-//        return userService.register(dto);
-//    }
-
-
-    private final MessageSender messageSender;
-
-    @PostMapping("/send")
-    public String sendMessage(@RequestBody UserRegisterDto dto) {
-        messageSender.sendMessage(dto.getName());
-        return "Message sent to RabbitMQ: " + dto.getName();
+    @PostMapping("/register")
+     public ResponseEntity<?> register(@RequestBody UserRegisterDto dto){
+        return userService.register(dto);
     }
+
 }

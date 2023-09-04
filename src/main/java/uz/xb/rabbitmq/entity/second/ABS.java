@@ -21,4 +21,8 @@ public class ABS {
     private Integer userId;
     private String name;
     private String carName;
+
+    public ABS(String message) {
+        this.name = message;
+    }
 }

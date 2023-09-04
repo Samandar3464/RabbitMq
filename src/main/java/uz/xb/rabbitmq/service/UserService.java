@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import uz.xb.rabbitmq.configuration.MessageSender;
 import uz.xb.rabbitmq.entity.first.Info;
+import uz.xb.rabbitmq.entity.first.Users;
 import uz.xb.rabbitmq.entity.second.ABS;
 import uz.xb.rabbitmq.model.UserRegisterDto;
 import uz.xb.rabbitmq.repository.first.InfoRepository;
+import uz.xb.rabbitmq.repository.first.UsersRepository;
 import uz.xb.rabbitmq.repository.second.ABSRepository;
 
 
@@ -35,18 +38,26 @@ public class UserService {
     private final InfoRepository infoRepository;
 
     private final RabbitTemplate rabbitTemplate;
+    private final MessageSender messageSender;
+
+
+    private final UsersRepository usersRepository;
 
     public UserService(
             JdbcTemplate jdbcTemplate1,
             JdbcTemplate jdbcTemplate2,
             ABSRepository absRepository,
             InfoRepository infoRepository,
-            RabbitTemplate rabbitTemplate) {
+            RabbitTemplate rabbitTemplate,
+            MessageSender messageSender,
+            UsersRepository usersRepository) {
         this.jdbcTemplate1 = jdbcTemplate1;
         this.jdbcTemplate2 = jdbcTemplate2;
         this.absRepository = absRepository;
         this.infoRepository = infoRepository;
         this.rabbitTemplate = rabbitTemplate;
+        this.messageSender = messageSender;
+        this.usersRepository = usersRepository;
     }
 
     public List<ABS> fromPtoS() {
@@ -73,14 +84,19 @@ public class UserService {
         return infoList;
     }
 
-//    public ResponseEntity<?> register(UserRegisterDto dto) {
-//        rabbitTemplate.convertAndSend("", "register", dto);
-//        return ResponseEntity.ok("Ok");
-//    }
+    public ResponseEntity<?> register(UserRegisterDto dto) {
+        messageSender.sendMessage(dto.getName());
+        return ResponseEntity.ok().body("Message sent to RabbitMQ: " + dto.getName());
+    }
 
+    @RabbitListener(queues = "register")
+    public void receiveMessage(String message) {
+        System.out.println("Received message: " + message +"RabbitWorking");
+        absRepository.save(new ABS(message));
+        // Process the message as needed
+    }
 
-//    @RabbitListener(queues = {"q.register"})
-//    public void onUserRegistration(UserRegisterDto event) {
-//        log.info("User Registration Event Received: {}", event);
-//    }
+    public List<Users> getAll(){
+        return  usersRepository.findAll();
+    }
 }
