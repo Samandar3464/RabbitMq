@@ -1,0 +1,55 @@
+package uz.xb.robbitmq.service;
+
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+import uz.xb.robbitmq.entity.first.Info;
+import uz.xb.robbitmq.entity.second.ABS;
+import uz.xb.robbitmq.repository.first.InfoRepository;
+import uz.xb.robbitmq.repository.second.ABSRepository;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+    @Qualifier("jdbcUser1")
+    private final JdbcTemplate jdbcTemplate1;
+
+    @Qualifier("jdbcUser2")
+    private final JdbcTemplate jdbcTemplate2;
+
+    private final ABSRepository absRepository;
+
+    private final InfoRepository infoRepository;
+
+    public List<ABS> fromPtoS() {
+        String query = "select u.id , u.name, s.car_name from users u  join car s on u.id = s.user_id";
+        List<Map<String, Object>> maps = jdbcTemplate1.queryForList(query);
+        List<ABS> usersList = new ArrayList<>();
+        for (Map<String, Object> map : maps) {
+            ABS users = new ABS();
+            users.setUserId((Integer) map.get("id"));
+            users.setName((String) map.get("name"));
+            users.setCarName((String) map.get("car_name"));
+            usersList.add(users);
+        }
+        return usersList;
+    }
+
+    public List<Info> fromStoP() {
+        List<Info> infoList = new ArrayList<>();
+        for (ABS abs : absRepository.findAll()) {
+            Info info = new Info(abs.getId(), abs.getUserId(), abs.getName(), abs.getCarName());
+            infoList.add(info);
+            infoRepository.save(info);
+        }
+        return infoList;
+    }
+}
