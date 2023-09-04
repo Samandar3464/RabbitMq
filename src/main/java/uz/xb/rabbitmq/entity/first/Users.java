@@ -17,4 +17,8 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
+    public Users(String message) {
+        this.name = message;
+    }
 }

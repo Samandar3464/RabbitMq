@@ -2,11 +2,16 @@ package uz.xb.rabbitmq.service;
 
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import uz.xb.rabbitmq.entity.first.Info;
 import uz.xb.rabbitmq.entity.second.ABS;
+import uz.xb.rabbitmq.model.UserRegisterDto;
 import uz.xb.rabbitmq.repository.first.InfoRepository;
 import uz.xb.rabbitmq.repository.second.ABSRepository;
 
@@ -16,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     @Qualifier("jdbcUser1")
@@ -28,6 +33,21 @@ public class UserService {
     private final ABSRepository absRepository;
 
     private final InfoRepository infoRepository;
+
+    private final RabbitTemplate rabbitTemplate;
+
+    public UserService(
+            JdbcTemplate jdbcTemplate1,
+            JdbcTemplate jdbcTemplate2,
+            ABSRepository absRepository,
+            InfoRepository infoRepository,
+            RabbitTemplate rabbitTemplate) {
+        this.jdbcTemplate1 = jdbcTemplate1;
+        this.jdbcTemplate2 = jdbcTemplate2;
+        this.absRepository = absRepository;
+        this.infoRepository = infoRepository;
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     public List<ABS> fromPtoS() {
         String query = "select u.id , u.name, s.car_name from users u  join car s on u.id = s.user_id";
@@ -52,4 +72,15 @@ public class UserService {
         }
         return infoList;
     }
+
+//    public ResponseEntity<?> register(UserRegisterDto dto) {
+//        rabbitTemplate.convertAndSend("", "register", dto);
+//        return ResponseEntity.ok("Ok");
+//    }
+
+
+//    @RabbitListener(queues = {"q.register"})
+//    public void onUserRegistration(UserRegisterDto event) {
+//        log.info("User Registration Event Received: {}", event);
+//    }
 }
