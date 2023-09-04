@@ -22,7 +22,7 @@ public class UserCron {
         System.out.println("working");
         List<Users> users = userService.getAll();
         users.forEach(obj -> {
-            messageSender.sendMessage(obj.getName());
+            messageSender.sendMessage(obj);
         });
         System.out.println("stopped");
     }

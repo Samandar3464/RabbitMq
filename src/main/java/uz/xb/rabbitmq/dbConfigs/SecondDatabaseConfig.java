@@ -1,4 +1,4 @@
-package uz.xb.rabbitmq.config;
+package uz.xb.rabbitmq.dbConfigs;
 
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

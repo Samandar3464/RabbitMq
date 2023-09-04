@@ -3,8 +3,11 @@ package uz.xb.rabbitmq.service;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.utils.SerializationUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,7 +28,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class UserService {
+public class UserService  {
 
     @Qualifier("jdbcUser1")
     private final JdbcTemplate jdbcTemplate1;
@@ -85,18 +88,11 @@ public class UserService {
     }
 
     public ResponseEntity<?> register(UserRegisterDto dto) {
-        messageSender.sendMessage(dto.getName());
+        messageSender.sendMessage(dto);
         return ResponseEntity.ok().body("Message sent to RabbitMQ: " + dto.getName());
     }
-
-    @RabbitListener(queues = "register")
-    public void receiveMessage(String message) {
-        System.out.println("Received message: " + message +"RabbitWorking");
-        absRepository.save(new ABS(message));
-        // Process the message as needed
-    }
-
     public List<Users> getAll(){
         return  usersRepository.findAll();
     }
+
 }

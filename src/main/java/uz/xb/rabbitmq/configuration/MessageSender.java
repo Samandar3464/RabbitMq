@@ -19,7 +19,7 @@ public class MessageSender {
         return new Queue("register", false);
     }
 
-    public void sendMessage(Object message) {
+    public void sendMessage(Object message) { // istalgan narsani bersa bo'ladi
         rabbitTemplate.convertAndSend("register", message);
     }
 }
